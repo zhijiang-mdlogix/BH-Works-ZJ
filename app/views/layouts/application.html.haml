@@ -1,0 +1,13 @@
+%html
+  %head
+    = stylesheet_link_tag 'reset', 'grid-fluid', 'websymbols', 'formalize', 'esplendido', 'light'
+    = stylesheet_link_tag '/plugins/ui/ui-custom.css', '/plugins/validationEngine/validationEngine.jquery.css', '/plugins/shadowbox/shadowbox.css'
+    = javascript_include_tag 'jquery-1.7.2.min', 'rails', 'esplendido', 'browserDetect', 'jquery.formalize.min'
+    = javascript_include_tag '/plugins/prefixfree.min.js', '/plugins/validationEngine/languages/jquery.validationEngine-en.js', '/plugins/validationEngine/jquery.validationEngine.js'
+    = javascript_include_tag 'application'
+    = csrf_meta_tag
+
+  %body
+    = yield
+
+

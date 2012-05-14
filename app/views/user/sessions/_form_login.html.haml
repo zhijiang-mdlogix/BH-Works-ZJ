@@ -1,0 +1,16 @@
+= form_for(@user, :as => resource_name, :url => session_path(resource_name)) do |f|
+  .fieldset.primary-widget
+    %label
+      %span.icon{:'data-icon'=>'user'}
+      =f.text_field :login, {:placeholder=>t('placeholder_email_username'), :'data-validation-engine'=>'validate[required]', :autofocus=>'autofocus'}
+      // %input#loginField{:name => 'email', :type=>'text', :placeholder=>t('placeholder_email_username'), :'data-validation-engine'=>'validate[required]', :autofocus=>'autofocus'}
+    %label
+      %span.icon{:'data-icon'=>'lock'}
+      =f.password_field :password, {:placeholder=>t('placeholder_password'), :'data-validation-engine'=>'validate[required]'}
+      // %input#passwordField{:name => 'password', :type=>'password', :placeholder=>t('placeholder_password'), :'data-validation-engine'=>'validate[required]'}
+
+  %label.check-container
+    %input{:type=>'checkbox', :name=>'remember_me'}Keep me logged in
+
+  %input.full-bt{:type=>'submit', :value=>'Log in'}
+

@@ -1,0 +1,12 @@
+#login.single
+  %header
+    %img{:src=>'/images/esplendido-large.png', :alt=>t('lbl_no_logo')}
+  %nav
+    %ul
+      %li.active
+        %a{:href=>'#'}Login
+      %li
+        %a{:href=>'#'}Password Recovery
+
+  %section.content
+    =render(:partial => 'form_login')

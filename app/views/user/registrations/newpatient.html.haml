@@ -1,0 +1,58 @@
+#errornotificationPatientForm{:style=>'display:none'}
+  .notification.red
+    %p
+      Error:
+      %strong#errornotificationdetails
+        Data Error:&nbsp;
+#successnotificationPatientForm{:style=>'display:none'}
+  .notification.blue
+    %p
+      Success:
+      %strong
+        Patient saved successfully.
+= form_for(@user, :as => :user, :url => {:action => 'create', :controller => 'user/registrations'}, :remote=>true, :html=>{:id=>'form_newpatient'}) do |f|
+  =f.hidden_field :email
+  =f.hidden_field :id
+  %fieldset.set
+    .field
+      %label
+        MR Number
+        %span
+          (MRN)
+      .entry
+        //TODO Try to use ajax[ajaxMrnCall], but seems conflict with ajax form, also onBlur seeme not trigged.
+        =f.text_field :mrn, {:placeholder=>'Medical Record Number', :class=>'validate[required]'}
+    .field.even
+      %label
+        First name & Last name
+      .entry
+        .dual
+          =f.text_field :firstname, {:placeholder=>'First name', :class=>'validate[required]'}
+          =f.text_field :lastname, {:placeholder=>'First name'}
+    .field
+      %label
+        Date of Birth
+        %span
+          (MM/dd/yyyy)
+      .entry.with-helper
+        .helper
+          %span.icon{:'data-icon'=>'calendar'}
+        =f.text_field :birthday, {:class=>'datepicker required validate[past[2012-05-01]]', :type=>'text'}
+    .field.even
+      %label
+        Password
+        %span
+          (Default as MRN)
+      .entry
+        .dual
+          =f.text_field :password, {:type=>'password', :placeholder=>'Password', :class=>'validate[minSize[6], required]'}
+          =f.text_field :password_confirmation, {:type=>'password', :placeholder=>'Password again', :class=>'validate[required, equals[user_password]'}
+    .field.last
+      %label
+        Staff email
+      .entry
+        =f.text_field :staffemail, {:placeholder=>'Staff email address', :class=>'validate[required, custom[email]]'}
+  %footer.pane
+    %a.bt.blue#newpatient{:href=>'javascript:void(0);'}
+      %span.glyph.approved
+      Create/Update a patient
