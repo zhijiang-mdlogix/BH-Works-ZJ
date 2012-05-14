@@ -1,0 +1,79 @@
+%html
+  %head
+    = stylesheet_link_tag 'reset', 'grid-fluid', 'websymbols', 'formalize', 'esplendido', 'light'
+    = stylesheet_link_tag '/plugins/ui/ui-custom.css', '/plugins/validationEngine/validationEngine.jquery.css', '/plugins/shadowbox/shadowbox.css'
+    = javascript_include_tag 'jquery-1.7.2.min', 'rails', 'esplendido', 'browserDetect', 'jquery.formalize.min'
+    = javascript_include_tag '/plugins/ui/ui-custom.js', '/plugins/ui/ui.spinner.min.js'
+    = javascript_include_tag '/plugins/datables/jquery.dataTables.min.js', '/plugins/prefixfree.min.js', '/plugins/validationEngine/languages/jquery.validationEngine-en.js', '/plugins/validationEngine/jquery.validationEngine.js'
+    = javascript_include_tag 'application'
+    = csrf_meta_tag
+    = javascript_tag 'jQuery(document).ready(function(){jQuery("#new_user").validationEngine();});'
+
+  %body
+    #wrapper.container_12
+      %aside#sidebar
+        #logo
+          %img{:alt=>'Company Logo', :src=>'/images/logo-small.png'}
+        #me.secondary-widget
+          %figure
+            %img{:alt=>'Altva', :src=>'/images/me.png'}
+          %div
+            %h1
+              =@user.firstname + ' ' + @user.lastname
+            %span
+              =@user.roles[0].name
+            %ul
+              %li
+                =link_to('Edit Profile', '/users/logout')
+              %li
+                =link_to('Logout','/users/logout')
+        .search.primary-widget
+          %input{:type=>'text', :placeholder=>'Search for'}
+          %select
+            %option
+              everything
+            %option
+              user
+
+        // Menu.
+        .menu.primary-widget
+          %nav
+            %ul
+              %li#dashboard_menu.active
+                = link_to('Dashboard','/admin/dashboard', :'data-icon'=>'cloud')
+              %li#managestaff_menu
+                = link_to('Manage Staff',administration_managestaff_path(:format => :js), :'data-icon'=>'reblog', :remote=>true, :id=>'managestaff_menu_link')
+                // = link_to('Manage Staff','/admin/managestaff', :'data-icon'=>'reblog')
+              %li#managepatient_menu
+                = link_to('Manage Patient',administration_managepatient_path(:format => :js), :'data-icon'=>'user', :remote=>true, :id=>'managepatient_menu_link')
+                // = link_to('Manage Patient','/admin/managepatient', :'data-icon'=>'user')
+              %li#supporthelp_menu
+                // = link_to_remote('Support & Help',:update=>'managestaff_menu', :url=> 'administration_support_path')
+                = link_to('Support & Help',administration_support_path(:format => :js), :'data-icon'=>'lettery', :remote=>true, :id=>'supporthelp_menu_link')
+
+        // Anything else here
+        .primary-widget
+          %p
+            Version 1.0 RC
+
+      // Main Section
+      %section#main
+        // Quick access bar section
+        %section#quick-actions.quick-actions.grid_12
+          %nav
+            %ul
+              %li
+                %a.modal{:href=>'', :title=>''}
+                  %span.glyph.reblog
+                  Manage Staff
+              %li
+                %a.modal{:href=>'', :title=>''}
+                  %span.glyph.user
+                  Manage Staff
+        %section#content
+          %header.pagetitle.grid-12
+            %h1#dtitle
+              Dashboard
+            %nav.breadcrumbs
+          #dcontent
+            = yield
