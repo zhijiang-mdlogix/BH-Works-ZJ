@@ -1,0 +1,34 @@
+.grid_12
+  .widget.minimizable
+    #header
+      .icon
+        #span.icon{:'data-icon'=>'table-draw'}
+      .title
+        %h2
+          Patients list
+    .content
+      %table.datatable#patientlist
+        %thead
+          %tr
+            %th
+              Patient first name
+            %th
+              Patient last name
+            %th
+              Username
+            %th
+              MR Number
+            %th
+              Date of birth
+        %tbody
+          %tr
+            %td
+              Zhijiang
+            %td
+              Chen
+            %td
+              lastcow
+            %td
+              12345-A
+            %td
+              1973-12-23

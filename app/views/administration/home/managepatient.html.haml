@@ -1,0 +1,31 @@
+.grid_12
+  .widget.minimizable
+    %header
+      .icon
+        %span.icon{:'data-icon'=>'ui-text-field-medium'}
+      .title
+        %h2
+          Create/Edit Patient
+    .content#registrationform
+
+  .widget.minimizable
+    %header
+      .icon
+        %span.icon{:'data-icon'=>'table-draw'}
+      .title
+        %h2
+          Patients list
+    .content
+      %table.datatable#patientlist
+        %thead
+          %tr
+            %th
+              Patient first name
+            %th
+              Patient last name
+            %th
+              Username
+            %th
+              Date of Birth
+            %th
+              Medical Record Number

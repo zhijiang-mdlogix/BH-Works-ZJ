@@ -1,0 +1,6 @@
+$('#dcontent').html(("<%= escape_javascript(render(:file=>'administration/home/managestaff.html.haml')) %>"));
+$('#dtitle').html('Manage Staff')
+$('#supporthelp_menu').removeClass('active');
+$('#dashboard_menu').removeClass('active');
+$('#managepatient_menu').removeClass('active');
+$('#managestaff_menu').addClass('active');

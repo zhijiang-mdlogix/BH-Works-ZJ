@@ -1,0 +1,136 @@
+
+/* Get the rows which are currently selected */
+function fnGetSelected( oTableLocal )
+{
+    return oTableLocal.$('tr.row_selected');
+}
+
+$("#patientlist tbody tr").live("click", function(e){
+    if ( $(this).hasClass('row_selected') ) {
+        $(this).removeClass('row_selected');
+    }
+    else {
+        patientTable.$('tr.row_selected').removeClass('row_selected');
+        $(this).addClass('row_selected');
+    }
+    var nTds = $('td', this);
+    var selectedMrn = $(nTds[4]).text();
+
+    $.ajax({
+        url: '<%= url_for :action => 'getpatientbymrn' %>',
+        data: 'mrn=' + selectedMrn,
+        dataType: 'script'
+    })
+
+});
+// Bind password to MRN number.
+$('#user_mrn').live('blur', function(){
+    $('#user_password').val($('#user_mrn').val());
+    $('#user_password_confirmation').val($('#user_mrn').val());
+})
+
+
+$('#dcontent').html("<%= escape_javascript(render(:file=>'administration/home/managepatient.html.haml')) %>");
+$('#dtitle').html('Manage Patient')
+$('#supporthelp_menu').removeClass('active');
+$('#dashboard_menu').removeClass('active');
+$('#managepatient_menu').addClass('active');
+$('#managestaff_menu').removeClass('active');
+
+$('#registrationform').html("<%= escape_javascript(render(:file=>'user/registrations/newpatient.html.haml')) %>");
+setupPatientForm();
+
+$.fn.wrapInnerTexts = function($with){
+    if(!$with)
+        $with = $('<span class="textnode" />');
+
+    $(this).each(function(){
+        var kids = this.childNodes;
+        for (var i=0,len=kids.length;i<len;i++){
+            if (kids[i].nodeName == '#text'){
+                $(kids[i]).wrap($with.clone().addClass('i-' + i));
+            }
+        }
+    });
+    return $(this);
+};
+
+patientTable = $('#patientlist').dataTable({
+    bProcessing: false,
+    sAjaxSource: '/administration/allpatiens.json',
+    //sAjaxDataProp: 'rows'
+
+    sPaginationType: 'full_numbers',
+    sDom: '<"header-table"lf>rt<"footer-table"ip>',
+    oLanguage: { oPaginate: {
+        sFirst: '<',
+        sPrevious: '(',
+        sNext: ')',
+        sLast: '>'
+        },
+        sLengthMenu: "Display _MENU_ patiens per page",
+        sZeroRecords: "No patient found in system",
+        sInfo: "Showing _START_ to _END_ of _TOTAL_ patiens",
+        sInfoEmpty: "Showing 0 to 0 of 0 patients"
+    },
+    fnInitComplete: function(t){
+        var $table = $(t.nTable), $head = $table.prev();
+        $head.find('select').uniform();
+
+        $head.find('.dataTables_length label').wrapInnerTexts();
+        $head.find('.dataTables_filter label').wrapInnerTexts();
+        $head.find('input[type=text]').wrap('<div class="entry"></div>').parent().prepend('<div class="helper">' + createIcon('magnifier') + '</div>');
+        $table.find('.sorting, .sorting_asc, .sorting_desc').wrapInner($('<div class="parentsort" />')).find('.parentsort').append('<div class="sorticon" />');
+    }
+});
+
+$('.widget').each(function(){
+    var $this = $(this),
+            minimize,
+            $content = $this.find('.content'),
+            currentActiveTab = $this.find('> header nav li.active a').attr('href');
+
+    $content.find('> section:not(' + currentActiveTab + ')').hide();
+
+    // open-close
+    if($this.is('.minimizable')){
+        minimize = $('<div class="minimize" />').html('<span class="glyph zoom-out"></span>');
+        $this.find('> header').append(minimize);
+
+        minimize.click(function(){
+            minimize.find('.glyph').toggleClass('zoom-out').toggleClass('zoom-in');
+            $content.slideToggle();
+            $this.toggleClass('close');
+        });
+
+        if($this.is('.close')){
+            minimize.click();
+        }
+    }
+
+
+    // change tabs
+    $this.find('> header nav li a').click(function(e){
+        var $self = $(this), is = $self.is($('a[href=' + currentActiveTab + ']'));
+
+        if($self.attr('href')[0] == '#'){
+            var cur = $(currentActiveTab);
+            var origHeight = cur.css('height');
+            cur.hide();
+            currentActiveTab = $self.attr('href');
+            cur = $(currentActiveTab);
+            var realHeight = cur.show().height(); cur.hide();
+            $self.closest('nav').find('li').removeClass('active').filter($self.parent()).addClass('active');
+
+
+            cur.show().css('opacity', 0).height(origHeight).animate({height: realHeight}, function(){
+                cur.height('auto').css('opacity', '1').hide().fadeIn();
+            });
+
+            e.preventDefault();
+        }else if(is){
+            e.preventDefault();
+        }
+    });
+});
+
