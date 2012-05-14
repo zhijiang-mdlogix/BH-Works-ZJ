@@ -1,0 +1,12 @@
+//TODO reload for now.
+patientTable.dataTable().fnReloadAjax();
+
+$('#errornotificationPatientForm')[0].style.display='none';
+
+$('#registrationform').html("<%= escape_javascript(render(:file=>'user/registrations/newpatient.html.haml')) %>");
+setupPatientForm();
+
+// Enable notification
+$('#successnotificationPatientForm')[0].style.display='block';
+
+

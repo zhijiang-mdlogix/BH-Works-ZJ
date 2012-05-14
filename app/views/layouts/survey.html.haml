@@ -21,19 +21,10 @@
             %h1
               =@user.firstname + ' ' + @user.lastname
             %span
-              =@user.roles[0].name
+              =@user.roles[0].name+' ('+@user.mrn+')'
             %ul
               %li
-                =link_to('Edit Profile', '/users/logout')
-              %li
                 =link_to('Logout','/users/logout')
-        .search.primary-widget
-          %input{:type=>'text', :placeholder=>'Search for'}
-          %select
-            %option
-              everything
-            %option
-              user
 
         // Menu.
         .menu.primary-widget
@@ -73,7 +64,7 @@
         %section#content
           %header.pagetitle.grid-12
             %h1#dtitle
-              Dashboard
+              =@survey.name
             %nav.breadcrumbs
           #dcontent
             = yield

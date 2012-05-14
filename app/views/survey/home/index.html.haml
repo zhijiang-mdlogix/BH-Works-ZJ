@@ -1,0 +1,4 @@
+-surveySections = @survey.sections
+-surveySections.order :sort
+-for surveySection in surveySections
+  =render :partial=>'survey_section', :locals=>{:surveySection=>surveySection}

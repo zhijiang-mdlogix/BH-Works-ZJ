@@ -1,0 +1,13 @@
+// Reload the new patient form.
+$('#registrationform').html("<%= escape_javascript(render(:file=>'user/registrations/newpatient.html.haml')) %>");
+
+$('input.datepicker').each(function(){
+    var $this = $(this), options = {};
+    if($this.is('.inline')){
+        var other = $('<div />', {'class': 'datepicker'});
+        $this.after(other).hide();
+        options.altField = $this;
+        $this = other;
+    }
+    $this.datepicker(options);
+});

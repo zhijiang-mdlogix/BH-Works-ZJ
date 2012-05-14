@@ -1,1 +1,22 @@
-alert('Created');
+
+
+<% if(@newpatient.errors.any?) %>
+    var errors = '';
+    <% @newpatient.errors.full_messages.each do |error|%>
+       errors += '<%= escape_javascript( error ) %> - ';
+    <% end %>
+
+    $('#successnotificationPatientForm')[0].style.display='none';
+    $('#errornotificationPatientForm')[0].style.display='block';
+    $('#errornotificationdetails').html(errors);
+
+<% else %>
+    //TODO reload for now.
+    patientTable.dataTable().fnReloadAjax();
+
+    $('#registrationform').html("<%= escape_javascript(render(:file=>'user/registrations/newpatient.html.haml')) %>");
+    setupPatientForm();
+
+    // Notification
+    $('#successnotificationPatientForm')[0].style.display='block';
+<% end %>
