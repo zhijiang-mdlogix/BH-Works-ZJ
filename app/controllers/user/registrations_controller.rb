@@ -17,7 +17,7 @@ class User::RegistrationsController < ApplicationController
       @newpatient.save!
       flash[:notice] = "Patient created successfully";
       #Try save user.
-    rescue Exception=>ex
+    rescue Exception
       #TODO Log it.
     end
 
